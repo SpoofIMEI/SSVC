@@ -52,57 +52,73 @@ namespace SSVC.Audio
             var rnd = new Random();
             var multiplier = 1000000f;
             soundIn.DataAvailable += (s,e) => {
-                // Equalizer
-                if (!viewModel.CheckOnlyPitch)
+                try
                 {
-                    for (int i = 0; i < 5; i++)
+                    // Equalizer
+                    if (!viewModel.CheckOnlyPitch)
                     {
-                        ((Equalizer)layers[1]).SampleFilters[i+2].Filters[0].GainDB = (double)(rnd.Next((int)(-viewModel.Distortion/1.25*multiplier), (int)(viewModel.Distortion/1.25*multiplier)) /multiplier);
-                        ((Equalizer)layers[1]).SampleFilters[i+2].Filters[1].GainDB = (double)(rnd.Next((int)(-viewModel.Distortion/1.25*multiplier), (int)(viewModel.Distortion/1.25*multiplier)) /multiplier);
+                        for (int i = 0; i < 5; i++)
+                        {
+                            ((Equalizer)layers[1]).SampleFilters[i + 2].Filters.ToList().ForEach(x => {
+                                ((Equalizer)layers[1]).SampleFilters[i + 2].Filters[x.Key].GainDB = 
+                                (double)(rnd.Next((int)(-viewModel.Distortion / 1.25 * multiplier), (int)(viewModel.Distortion / 1.25 * multiplier)) / multiplier);
+                            });
+                        }
+                    }
+
+                    for (int i = 0; i < 6; i++)
+                    {
+                        ((Equalizer)layers[1]).SampleFilters[i + 1].Filters.ToList().ForEach(x =>
+                        {
+                            if (((Equalizer)layers[1]).SampleFilters[i + 1].Filters[x.Key].GainDB < 5)
+                                ((Equalizer)layers[1]).SampleFilters[i + 1].Filters[x.Key].GainDB = viewModel.VoiceIncrease;
+                        });
+                    }
+
+                    if (viewModel.CheckRemoveBackgroundNoise)
+                    {
+                        ((Equalizer)layers[3]).SampleFilters[9].Filters.ToList().ForEach(x =>
+                        {
+                            ((Equalizer)layers[3]).SampleFilters[9].Filters[x.Key].GainDB = -50;
+                        });
+
+                        for (int i = 0; i < 2; i++)
+                        {
+                            ((Equalizer)layers[3]).SampleFilters[9].Filters.ToList().ForEach(x =>
+                            {
+                                ((Equalizer)layers[3]).SampleFilters[i].Filters[x.Key].GainDB = -10;
+                            });
+                        }
+                    }
+                    else
+                    {
+                        ((Equalizer)layers[3]).SampleFilters[9].Filters.ToList().ForEach(x => {
+                            ((Equalizer)layers[3]).SampleFilters[9].Filters[x.Key].GainDB = 0;
+                        });
+
+                        for (int i = 0; i < 2; i++)
+                        {
+                            ((Equalizer)layers[3]).SampleFilters[9].Filters.ToList().ForEach(x =>
+                            {
+                                ((Equalizer)layers[3]).SampleFilters[i].Filters[x.Key].GainDB = 0;
+                            });
+                        }
+                    }
+
+                    // Pitch shift
+                    if (!viewModel.CheckOnlyEqualizer)
+                    {
+                        var shift = 1f + viewModel.Pitch / 100f;
+                        var distortion = ((float)viewModel.Distortion) / 100.0;
+                        var shiftDistortion = rnd.Next((int)((shift - distortion * 1.5) * multiplier), (int)((shift + distortion * 1.5) * multiplier)) / multiplier;
+                        if (shiftDistortion < 0.3)
+                            shiftDistortion = rnd.Next((int)(0.3 * multiplier), (int)(0.35 * multiplier)) / multiplier;
+                        if (shiftDistortion != ((PitchShifter)layers[0]).PitchShiftFactor)
+                            ((PitchShifter)layers[0]).PitchShiftFactor = shiftDistortion;
                     }
                 }
-
-                for (int i = 0; i < 6; i++)
-                {
-                    if (((Equalizer)layers[1]).SampleFilters[i + 1].Filters[0].GainDB < 5)
-                        ((Equalizer)layers[2]).SampleFilters[i + 1].Filters[0].GainDB = viewModel.VoiceIncrease;
-                    if (((Equalizer)layers[1]).SampleFilters[i + 1].Filters[1].GainDB < 5)
-                        ((Equalizer)layers[2]).SampleFilters[i + 1].Filters[1].GainDB = viewModel.VoiceIncrease;
-                }
-
-                if (viewModel.CheckRemoveBackgroundNoise)
-                {
-
-                    ((Equalizer)layers[3]).SampleFilters[9].Filters[0].GainDB = -50;
-                    ((Equalizer)layers[3]).SampleFilters[9].Filters[1].GainDB = -50;
-                    
-                    for (int i = 0; i < 2; i++)
-                    {
-                        ((Equalizer)layers[3]).SampleFilters[i].Filters[0].GainDB = -10;
-                        ((Equalizer)layers[3]).SampleFilters[i].Filters[1].GainDB = -10;
-                    }
-                }else
-                {
-                    ((Equalizer)layers[3]).SampleFilters[9].Filters[0].GainDB = 0;
-                    ((Equalizer)layers[3]).SampleFilters[9].Filters[1].GainDB = 0;
-                    
-                    for (int i = 0; i < 2; i++)
-                    {
-                        ((Equalizer)layers[3]).SampleFilters[i].Filters[0].GainDB = 0;
-                        ((Equalizer)layers[3]).SampleFilters[i].Filters[1].GainDB = 0;
-                    }
-                }
-
-                // Pitch shift
-                if (!viewModel.CheckOnlyEqualizer)
-                {
-                    var shift = 1f + viewModel.Pitch / 100f;
-                    var distortion = ((float)viewModel.Distortion)/100.0;
-                    var shiftDistortion = rnd.Next((int)((shift - distortion*1.5) *multiplier), (int)((shift + distortion*1.5) * multiplier))/multiplier;
-                    if (shiftDistortion < 0.3)
-                        shiftDistortion = rnd.Next((int)(0.3 * multiplier), (int)(0.35 * multiplier)) / multiplier;
-                    if (shiftDistortion != ((PitchShifter)layers[0]).PitchShiftFactor)
-                        ((PitchShifter)layers[0]).PitchShiftFactor = shiftDistortion;
+                catch (Exception ex) { 
+                    Console.WriteLine(ex.ToString());
                 }
             };
             

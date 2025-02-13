@@ -56,8 +56,14 @@ namespace SSVC.Views
             }
 
             Text.Text = string.Empty;
-            _viewModelBase.VoiceChangerInstace = new(_viewModelBase.Mics[mic], _viewModelBase.Speakers[speaker], (MainWindowViewModel)this.DataContext);
-            _viewModelBase.VoiceChangerInstace.StartVoiceChanger();
+            try
+            {
+                _viewModelBase.VoiceChangerInstace = new(_viewModelBase.Mics[mic], _viewModelBase.Speakers[speaker], (MainWindowViewModel)this.DataContext);
+                _viewModelBase.VoiceChangerInstace.StartVoiceChanger();
+            }
+            catch (Exception ex) { 
+                Console.WriteLine(ex.ToString());
+            }
             ActivateButton.Background = Brush.Parse("red");
             ActivateButtonText.Text = "DEACTIVATE";
         }
