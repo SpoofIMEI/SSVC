@@ -1,0 +1,99 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:SSVC.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="SSVC.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="SSVC"
+		MaxHeight="575"
+		MaxWidth="400"
+		MinHeight="575"
+		MinWidth="400">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+	<StackPanel HorizontalAlignment="Center" Margin="0,10,0,0">
+	    <Border Background="#111111" 
+				Padding="5,10,5,20"
+				CornerRadius="5">
+			<StackPanel>
+				<TextBlock Margin="10,0" FontSize="15" FontWeight="SemiBold">select input device:</TextBlock>
+				<ComboBox Width="300" Margin="10,0" x:Name="MicsDropdown">
+				</ComboBox>
+				<TextBlock Margin="10,10,0,0" FontSize="15" FontWeight="SemiBold">select output device:</TextBlock>
+				<ComboBox Width="300" Margin="10,0" x:Name="SpeakersDropdown">
+				</ComboBox>
+			</StackPanel>
+	    </Border>
+		<StackPanel HorizontalAlignment="Center">
+			<TextBlock  
+					x:Name="Text"
+					FontWeight="SemiBold"
+					FontSize="15"
+					HorizontalAlignment="Left"
+					Foreground="Red"></TextBlock>
+
+			<TextBlock FontWeight="SemiBold"
+				FontSize="15"
+				Text="{Binding VoiceIncrease, UpdateSourceTrigger=PropertyChanged, StringFormat='voice volume: {0}'}">
+			</TextBlock>
+			<Slider Value="{Binding VoiceIncrease, Mode=TwoWay}" Minimum="0" Maximum="25"></Slider>
+
+
+			<TextBlock FontWeight="SemiBold"
+					FontSize="15"
+					Text="{Binding Distortion, UpdateSourceTrigger=PropertyChanged, StringFormat='distortion: {0}'}">
+			</TextBlock>
+			<Slider Value="{Binding Distortion, Mode=TwoWay}" Minimum="0" Maximum="50"></Slider>
+
+			<TextBlock FontWeight="SemiBold" 
+					FontSize="15" 
+					Text="{Binding Pitch, UpdateSourceTrigger=PropertyChanged, StringFormat='pitch: {0}'}"></TextBlock>
+			<Slider Value="{Binding Pitch, Mode=TwoWay}" Minimum="-100" Maximum="100"></Slider>
+			<Border CornerRadius="5" BorderThickness="2" Padding="5,5,-5,5" BorderBrush="#111111">
+				<Grid RowDefinitions="*,*,*" ColumnDefinitions="*,150">
+					<TextBlock  Grid.Column="0" 
+								VerticalAlignment="Center" 
+								FontWeight="SemiBold"
+								FontSize="15">reduce background noise:
+					</TextBlock>
+					<CheckBox IsChecked="{Binding CheckRemoveBackgroundNoise, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="1"></CheckBox>
+					<TextBlock  Grid.Column="0" Grid.Row="1"
+								VerticalAlignment="Center"
+								FontWeight="SemiBold"
+								FontSize="15">only distort pitch:
+					</TextBlock>
+					<CheckBox IsChecked="{Binding CheckOnlyPitch, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="1" Grid.Row="1"></CheckBox>
+					<TextBlock  Grid.Column="0" Grid.Row="2"
+								VerticalAlignment="Center"
+								FontWeight="SemiBold"
+								FontSize="15">only distort equalizer:
+					</TextBlock>
+					<CheckBox IsChecked="{Binding CheckOnlyEqualizer, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="1" Grid.Row="2"></CheckBox>
+
+				</Grid>
+			</Border>
+			<Button Click="ActivateButton_Click"
+					x:Name="ActivateButton"
+					Width="350"
+					Background="Green" 
+					Foreground="White" 
+					FontSize="20" 
+					FontWeight="SemiBold" 
+					Padding="10"
+					Margin="0,10,0,0">
+				<TextBlock HorizontalAlignment="Center" x:Name="ActivateButtonText">
+					ACTIVATE
+				</TextBlock>
+			</Button>
+		</StackPanel>
+	</StackPanel>
+
+</Window>
