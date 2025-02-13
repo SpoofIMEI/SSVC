@@ -11,7 +11,7 @@
 If you ever need to talk to someone that you suspect might try figure out information about you for malicious purposes, you would probably want to alter your voice so that it cannot be used to identify you. Traditional voice changers typically do the job, but with the advancements of AI, I was able to correlate the pitch shifted version of a person's voice so it was clear that a normal voice changer would be insufficient to conceal your identity if the attacker had another recording of you **WITHOUT** the voice changer. 
 
 ## How?
-To combat this, I combined constantly shifting the pitch and randomly making certain frequencies louder or quiter, which worked on the AI flawlessly. You had to turn down the distortion factor a significant amount before it could detect that it was the same person again.
+To combat speaker recognition AIs, I combined constantly shifting the pitch and randomly making certain frequencies louder or quiter, which worked on the AI flawlessly. You had to turn down the distortion factor a significant amount before it could detect that it was the same person again. I might add in more features in the future like fake background noise generation.
 
 ## Demo
 I used `speechbrain/spkrec-ecapa-voxceleb` for speaker identification.
