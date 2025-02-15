@@ -54,6 +54,17 @@ namespace SSVC.ViewModels
             }
         }
 
+        private bool _checkArtificialBackgroundNoise { get; set; }
+        public bool CheckArtificialBackgroundNoise
+        {
+            get => _checkArtificialBackgroundNoise;
+            set
+            {
+                _checkArtificialBackgroundNoise = value;
+                OnPropertyChanged(nameof(CheckArtificialBackgroundNoise));
+            }
+        }
+
         private bool _checkOnlyPitch { get; set; }
         public bool CheckOnlyPitch
         {

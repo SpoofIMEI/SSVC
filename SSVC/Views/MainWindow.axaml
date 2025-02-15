@@ -8,9 +8,9 @@
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="SSVC"
-		MaxHeight="575"
+		MaxHeight="600"
 		MaxWidth="400"
-		MinHeight="575"
+		MinHeight="600"
 		MinWidth="400">
 
     <Design.DataContext>
@@ -58,25 +58,35 @@
 					Text="{Binding Pitch, UpdateSourceTrigger=PropertyChanged, StringFormat='pitch: {0}'}"></TextBlock>
 			<Slider Value="{Binding Pitch, Mode=TwoWay}" Minimum="-100" Maximum="100"></Slider>
 			<Border CornerRadius="5" BorderThickness="2" Padding="5,5,-5,5" BorderBrush="#111111">
-				<Grid RowDefinitions="*,*,*" ColumnDefinitions="*,150">
+				<Grid RowDefinitions="*,*,*,*" ColumnDefinitions="*,150">
 					<TextBlock  Grid.Column="0" 
 								VerticalAlignment="Center" 
 								FontWeight="SemiBold"
 								FontSize="15">reduce background noise:
 					</TextBlock>
 					<CheckBox IsChecked="{Binding CheckRemoveBackgroundNoise, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="1"></CheckBox>
+					
 					<TextBlock  Grid.Column="0" Grid.Row="1"
+								VerticalAlignment="Center"
+								FontWeight="SemiBold"
+								FontSize="15">
+						artificial background noise:
+					</TextBlock>
+					<CheckBox IsChecked="{Binding CheckArtificialBackgroundNoise, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="1" Grid.Row="1"></CheckBox>
+
+					<TextBlock  Grid.Column="0" Grid.Row="2"
 								VerticalAlignment="Center"
 								FontWeight="SemiBold"
 								FontSize="15">only distort pitch:
 					</TextBlock>
-					<CheckBox IsChecked="{Binding CheckOnlyPitch, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="1" Grid.Row="1"></CheckBox>
-					<TextBlock  Grid.Column="0" Grid.Row="2"
+					<CheckBox IsChecked="{Binding CheckOnlyPitch, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="1" Grid.Row="2"></CheckBox>
+					
+					<TextBlock  Grid.Column="0" Grid.Row="3"
 								VerticalAlignment="Center"
 								FontWeight="SemiBold"
 								FontSize="15">only distort equalizer:
 					</TextBlock>
-					<CheckBox IsChecked="{Binding CheckOnlyEqualizer, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="1" Grid.Row="2"></CheckBox>
+					<CheckBox IsChecked="{Binding CheckOnlyEqualizer, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="1" Grid.Row="3"></CheckBox>
 
 				</Grid>
 			</Border>
