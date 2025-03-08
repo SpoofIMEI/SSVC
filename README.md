@@ -3,7 +3,7 @@
 [![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=csharp&logoColor=white)](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=csharp&logoColor=white)
 [![.NET](https://img.shields.io/badge/.NET-5C2D91?style=for-the-badge&logo=.net&logoColor=white)](https://img.shields.io/badge/.NET-5C2D91?style=for-the-badge&logo=.net&logoColor=white)
 
-### INSTALL FROM <a href="https://github.com/R00tendo/SSVC/releases">RELEASES</a>
+### INSTALL FROM <a href="https://github.com/SpoofIMEI/SSVC/releases">RELEASES</a>
 
 <b>SSVC (Somewhat Secure Voice Changer) is a voice changer that is much harder to reverse and indetify people behind than traditional voice changers. It does this by randomly alternating the pitch and/or different frequencies in the sound.</b>
 
